@@ -34,7 +34,9 @@ with open("sgph.csv", "w", newline='') as writeFile:
         for item in sgph_table:
             date_only = item.find("th")
             date_only = date_only.get_text() + " " + year
-            writer.writerow([date_only])
+            day_only = item.findAll("td")[0].get_text()
+            name_only = item.findAll("td")[1].get_text()
+            writer.writerow([date_only,day_only,name_only])
 
         time.sleep(10)
 
