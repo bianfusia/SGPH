@@ -6,13 +6,21 @@ import csv
 
 
 #https://www.timeanddate.com/holidays/singapore/2000?hol=1
+while True:
+    print("Please provide the starting year")
+    start_year = input()
+    if len(start_year) != 4:
+        print("Invalid year. Please try again")
+        continue
+    start_year = int(start_year)
+    print("Please provide the ending year")
+    end_year = input()
+    if len(end_year) != 4 or start_year > int(end_year):
+        print("Invalid year. Please try again")
+        continue
+    end_year = int(end_year)
+    break
 
-print("Please provide the starting year")
-start_year = input()
-start_year = int(start_year)
-print("Please provide the ending year")
-end_year = input()
-end_year = int(end_year)
 #header list to make requests download more human than bot so site dont block scrap
 headers = {'user-agent':'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebkit/532.0 (KHTML, like Gecko) Chrome/4.0.201.1 Safari/532.0',}
 
@@ -40,6 +48,48 @@ with open("sgph.csv", "w", newline='') as writeFile:
 
         time.sleep(10)
 
+
 print("csv download completed")
 
+with open("sgph.csv", 'r') as readFile:
+    data = csv.reader(readFile)
+    data_list = []
+    single_entries = []
+    counter = 0
+    year_now = str(start_year) #insert start_year
+    for row in data:
+            data_list.append(row)
 
+    for row in data_list:
+        if row[0] not in single_entries:
+            single_entries.append(row[0])
+        else:
+            texting = "a duplicate date found: " + row[0]
+            print(texting)
+            with open("sgph.csv", "a", newline='') as writeFile:
+                writer = csv.writer(writeFile)
+                writer.writerow([texting])
+
+        if row[0][-4:] == year_now and row[1] != "Sunday":
+            counter += 1
+       
+        if row[0][-4:] != year_now:
+            if counter != 11:
+                texting = "please validate this year as total PH is not 11 days: " + year_now
+                print(texting)
+                with open("sgph.csv", "a", newline='') as writeFile:
+                    writer = csv.writer(writeFile)
+                    writer.writerow([texting])
+            if row[1] != "Sunday":
+                counter = 1
+            else:
+                counter = 0
+            year_now = row[0][-4:]
+
+        if row == data_list[-1]:
+            if counter != 11:
+                texting = "please validate this year as total PH is not 11 days: " + year_now
+                print(texting)
+                with open("sgph.csv", "a", newline='') as writeFile:
+                    writer = csv.writer(writeFile)
+                    writer.writerow([texting])
