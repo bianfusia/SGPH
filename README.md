@@ -6,10 +6,10 @@ Singapore Public Holiday Generator
 a duplicate date found: 30 Jan 2006
 a duplicate date found: 19 Feb 2007
 please validate this year as total PH is not 11 days: 2010
-2015 has SG50 - PH is correct
+2015 has SG50 and polling day off - PH is correct
 ```
 
-Correct Date:
+##Correct Date:
 ```
 31 Jan 2006 - CNY holiday brought forward from Sunday
 20 Feb 2007 - CNY holiday brought forward from Sunday
